@@ -1,18 +1,49 @@
 import tweepy
+from textblob import TextBlob
+import matplotlib.pyplot as plt
 
-# Replace with your credentials
-api_key = "MgBSSVwkY8hEfA7EQoD2Ghxnr"
-api_secret = "wjTrfWfafan1KUl0jaKkV9ETXHsYsZsYbmpRgO2GyAH5LV3nQl"
-access_token = "1341224503448227840-KZaydGhcXQFrv92F6MRkFXtDxzGz3Y"
-access_token_secret = "k4xNkTqPOZLdpVN2WfmhSikTygNiNRbTzUhZrzLjs00NI"
+# Your Bearer Token (replace with your actual one)
+bearer_token = "AAAAAAAAAAAAAAAAAAAAAMEpzgEAAAAAEuoHiPyrkigB4RrSGwruhnHwlwc%3D7acFIGu9IPgkX5pJhKjfVmyYMIk8qi7560ZL0euZKOT9bVzNas"
 
-auth = tweepy.OAuthHandler(api_key, api_secret)
-auth.set_access_token(access_token, access_token_secret)
-api = tweepy.API(auth)
+# Authenticate with v2
+client = tweepy.Client(bearer_token=bearer_token)
 
-# Test with a simple call
-try:
-    user = api.verify_credentials()
-    print("Authentication worked! Your username is:", user.screen_name)
-except Exception as e:
-    print("Error:", e)
+# Search for tweets
+keyword = "AI"
+tweets = client.search_recent_tweets(query=keyword, max_results=10, tweet_fields=["text"])
+
+# Get tweet text
+tweet_texts = [tweet.text for tweet in tweets.data]
+
+# Analyze sentiment
+sentiments = []
+for tweet in tweet_texts:
+    analysis = TextBlob(tweet)
+    polarity = analysis.sentiment.polarity  # -1 (negative) to 1 (positive)
+    if polarity > 0:
+        sentiment = "positive"
+    elif polarity < 0:
+        sentiment = "negative"
+    else:
+        sentiment = "neutral"
+    sentiments.append(sentiment)
+
+# Count results
+sentiment_counts = {
+    "positive": sentiments.count("positive"),
+    "negative": sentiments.count("negative"),
+    "neutral": sentiments.count("neutral")
+}
+
+# Print results
+print(f"Sentiment Analysis for '{keyword}' (based on {len(tweet_texts)} tweets):")
+print(f"Positive: {sentiment_counts['positive']}")
+print(f"Negative: {sentiment_counts['negative']}")
+print(f"Neutral: {sentiment_counts['neutral']}")
+
+# Create bar chart
+plt.bar(sentiment_counts.keys(), sentiment_counts.values(), color=['green', 'red', 'gray'])
+plt.title(f"Sentiment Analysis of Tweets about '{keyword}'")
+plt.xlabel("Sentiment")
+plt.ylabel("Number of Tweets")
+plt.show()
