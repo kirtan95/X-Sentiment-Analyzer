@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 
 # Your Bearer Token (replace with your actual one)
-bearer_token = "AAAAAAAAAAAAAAAAAAAAAMEpzgEAAAAAEuoHiPyrkigB4RrSGwruhnHwlwc%3D7acFIGu9IPgkX5pJhKjfVmyYMIk8qi7560ZL0euZKOT9bVzNas"
+bearer_token = "YOUR_BEARER_TOKEN"
 
 # Authenticate with v2
 client = tweepy.Client(bearer_token=bearer_token)
