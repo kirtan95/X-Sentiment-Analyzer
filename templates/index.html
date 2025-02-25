@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>X Sentiment Analyzer</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #000000;
+            color: #AAB8C2;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            color: #1DA1F2;
+            margin-bottom: 30px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 30px;
+            background-color: #16181C;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        label {
+            font-size: 1.1em;
+            color: #AAB8C2;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #AAB8C2;
+            border-radius: 4px;
+            background-color: #16181C;
+            color: #FFFFFF;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #1DA1F2;
+            outline: none;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            font-size: 1em;
+            background-color: #1DA1F2;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #1991DA;
+        }
+        .results {
+            background-color: #16181C;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.5em;
+            color: #FFFFFF;
+            margin: 0 0 15px;
+        }
+        p {
+            font-size: 1em;
+            text-align: center;
+            color: #AAB8C2;
+            margin: 8px 0;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+            margin: 20px auto;
+            border-radius: 8px;
+        }
+        .tweets-section {
+            margin-top: 20px;
+        }
+        .tweets-section h3 {
+            font-size: 1.2em;
+            color: #FFFFFF;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .tweet {
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #000000;
+            border: 1px solid #AAB8C2;
+            border-radius: 8px;
+        }
+        .tweet a {
+            text-decoration: none;
+            color: #1DA1F2;
+            transition: color 0.2s;
+        }
+        .tweet a:hover {
+            color: #FFFFFF;
+            text-decoration: underline;
+        }
+        .note {
+            font-size: 0.9em;
+            color: #AAB8C2;
+            text-align: center;
+            margin-top: 20px;
+            background-color: #16181C;
+            padding: 10px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>X Sentiment Analyzer</h1>
+    <form method="POST" action="/">
+        <label for="keyword">Search X for:</label>
+        <input type="text" id="keyword" name="keyword" value="X">
+        <input type="submit" value="Analyze Tweets">
+    </form>
+    {% if chart %}
+        <div class="results">
+            <h2>Sentiment for "{{ keyword }}"</h2>
+            <p>Positive: {{ sentiment_counts['positive'] }}</p>
+            <p>Negative: {{ sentiment_counts['negative'] }}</p>
+            <p>Neutral: {{ sentiment_counts['neutral'] }}</p>
+            <img src="{{ url_for('static', filename=chart) }}" alt="Sentiment Chart">
+            <div class="tweets-section">
+                <h3>Tweets Analyzed</h3>
+                {% for tweet in tweets %}
+                    <div class="tweet">
+                        <a href="{{ tweet.url }}" target="_blank">{{ tweet.text }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="note">
+                Note: X API has a rate limit (50 requests/15 min for free tier). If you get a "Too Many Requests" error, wait 15 mins and try again. Share this tip on WhatsApp: "Hey, if you see a rate limit error, just chill for 15 mins and retry!"
+            </div>
+        </div>
+    {% endif %}
+</body>
+</html>
