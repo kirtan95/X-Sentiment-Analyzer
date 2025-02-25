@@ -1,20 +1,16 @@
-### Hola, I'm Kirtan 👋
+# X Sentiment Analyzer
 
-## I'm a student!
-- 🌴 I’m currently working on Mogento 2 
-- 👀 I’m interested in data analytics
-- 🌱 I’m currently learning everything 🤣
-- 💞️ I’m looking to collaborate other content creators
+A Flask web app that fetches tweets from X, analyzes sentiment, and displays results with a chart and clickable tweet links.
 
-### Connect with me:
+## Features
+- X-themed web interface with modern CSS and tweet links
+- Fetches tweets using X API v2
+- Sentiment analysis with TextBlob
+- Bar chart visualization with Matplotlib
+- Rate limit note for X API (50 requests/15 min)
 
-[<img align="left" alt="_Kirtan_95 | Twitter" width="22px" src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Twitter_colored_svg-128.png" />][twitter]
-[<img align="left" alt="_Kirtan_95 | linkedin" width="22px" src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Linkedin_unofficial_colored_svg-128.png" />][linkedin]
-[<img align="left" alt="_Kirtan_95 | instagram" width="22px" src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-128.png" />][instagram]
-
-<br />
-<br />
-
-[twitter]: https://twitter.com/_Kirtan_95
-[linkedin]: https://www.linkedin.com/in/patel-kirtan-b108b6176/
-[instagram]: https://www.instagram.com/_kirtan_95/
+## Setup
+1. Install dependencies: `pip install tweepy textblob matplotlib flask`
+2. Add your X API Bearer Token to `app.py`
+3. Run: `python app.py`
+4. Visit: `http://127.0.0.1:5000/`
